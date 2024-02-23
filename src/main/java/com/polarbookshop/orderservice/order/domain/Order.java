@@ -6,6 +6,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.Instant;
+
 @Table("orders")
 public record Order(
 
@@ -21,7 +23,7 @@ public record Order(
         @LastModifiedDate
         Instant lastModifiedDate,
         @Version
-        Int version
+        int version
 ) {
     public static Order of(String bookIsbn, String bookName, Double bookPrice, Integer quantity, OrderStatus status) {
         return new Order(null, bookIsbn, bookName, bookPrice, quantity, status, null, null, 0);
