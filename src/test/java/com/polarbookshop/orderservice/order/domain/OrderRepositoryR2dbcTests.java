@@ -7,7 +7,9 @@ import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import reactor.test.StepVerifier;
@@ -20,11 +22,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 class OrderRepositoryR2dbcTests {
 
+    @Container
     static PostgreSQLContainer<?> postgresql =  new PostgreSQLContainer<>(DockerImageName.parse("postgres:14.4"));
 
     @Autowired
     private OrderRepository orderRepository;
 
+    @DynamicPropertySource
     static void postgresqlProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.r2dbc.url", OrderRepositoryR2dbcTests::r2dbcUrl);
         registry.add("spring.r2dbc.username", postgresql::getUsername);
